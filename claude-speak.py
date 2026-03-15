@@ -1,13 +1,15 @@
-#!/usr/bin/env python3
-"""Claude Code Stop hook — sends assistant response to kokoro-server for TTS."""
+#!/Users/hankim/kokoro-env/bin/python3.10
+"""Claude Code Stop hook: sends text to kokoro-server for instant TTS."""
 import json
 import socket
 import sys
+import os
 
 SOCKET_PATH = "/tmp/kokoro-tts.sock"
 
 
 def send_to_server(msg):
+    """Send a message to the kokoro-server. Fails silently if server is down."""
     try:
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         sock.settimeout(1)
@@ -19,7 +21,12 @@ def send_to_server(msg):
 
 
 def main():
+    # Skip if Vox triggered this via claude -p
+    if os.environ.get("VOX_NO_HOOK"):
+        return
+
     data = json.load(sys.stdin)
+
     message = data.get("last_assistant_message", "")
 
     if not message:
