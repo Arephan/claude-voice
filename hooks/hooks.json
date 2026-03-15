@@ -1,0 +1,28 @@
+{
+  "description": "Claude Voice — TTS hooks for Claude Code",
+  "hooks": {
+    "Setup": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/install.sh\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${HOME}/bin/claude-speak.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

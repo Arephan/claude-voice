@@ -82,7 +82,31 @@ The two-process design (warm daemon + thin hook client) is what makes it fast. N
 - Python 3.10 (Kokoro doesn't support 3.11+ yet)
 - [Claude Code](https://github.com/anthropics/claude-code) installed
 
-## Install
+## Install as a Claude Code Plugin (recommended)
+
+Add to your `~/.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "arephan": {
+      "source": {
+        "source": "github",
+        "repo": "arephan/claude-voice"
+      }
+    }
+  }
+}
+```
+
+Then inside Claude Code run:
+```
+/plugins add claude-voice@arephan
+```
+
+Claude will automatically run the installer on first setup. Use `/setup` to install and `/voice` to manage settings.
+
+## Manual Install
 
 ```bash
 git clone https://github.com/arephan/claude-voice.git

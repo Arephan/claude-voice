@@ -1,0 +1,7 @@
+{
+  "name": "claude-voice",
+  "version": "1.0.0",
+  "description": "Give Claude Code a voice — local, free, offline TTS using Kokoro",
+  "author": "Arephan",
+  "license": "MIT"
+}
