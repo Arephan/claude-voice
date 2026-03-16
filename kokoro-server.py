@@ -20,6 +20,8 @@ import sounddevice as sd
 from kokoro import KPipeline
 
 SOCKET_PATH = "/tmp/kokoro-tts.sock"
+DEFAULT_VOICE = 'af_heart'
+KOKORO_SPEED = 1.15
 pipeline = None
 play_lock = threading.Lock()
 stop_event = threading.Event()
@@ -63,7 +65,7 @@ def _play_chunks(chunks, voice):
         for chunk in chunks:
             if stop_event.is_set():
                 break
-            for _, _, audio in pipeline(chunk, voice=voice, speed=1.15):
+            for _, _, audio in pipeline(chunk, voice=voice, speed=KOKORO_SPEED):
                 if stop_event.is_set():
                     break
                 audio_queue.put(audio)
@@ -149,7 +151,7 @@ def speak(text, voice=None):
         return
     if len(text) > 2000:
         text = text[:2000] + "... I'll stop reading here."
-    voice = voice or 'af_heart'
+    voice = voice or DEFAULT_VOICE
     chunks = make_chunks(text)
     if not chunks:
         return
@@ -169,7 +171,7 @@ def speak_append(text, voice=None):
         return
     if len(text) > 2000:
         text = text[:2000] + "... I'll stop reading here."
-    voice = voice or 'af_heart'
+    voice = voice or DEFAULT_VOICE
     chunks = make_chunks(text)
     if not chunks:
         return
@@ -228,7 +230,7 @@ def main():
     print("[kokoro-server] Loading Kokoro model...", file=sys.stderr)
     pipeline = KPipeline(lang_code='a')
     # Warm up with a tiny utterance so first real request is fast
-    for _, _, audio in pipeline("ready", voice='af_heart', speed=1.15):
+    for _, _, audio in pipeline("ready", voice=DEFAULT_VOICE, speed=KOKORO_SPEED):
         pass
     print("[kokoro-server] Model loaded and warm. Listening.", file=sys.stderr)
 

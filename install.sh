@@ -43,7 +43,7 @@ fi
 # 3. Install dependencies
 echo "→ Installing kokoro, whisper, sounddevice, rumps..."
 "$VENV_DIR/bin/pip" install --quiet --upgrade pip
-"$VENV_DIR/bin/pip" install --quiet kokoro sounddevice numpy soundfile faster-whisper rumps
+"$VENV_DIR/bin/pip" install --quiet kokoro sounddevice numpy soundfile
 
 # 4. Copy server scripts to ~/bin
 echo "→ Installing scripts to $BIN_DIR..."
